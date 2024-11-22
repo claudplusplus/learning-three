@@ -16,7 +16,7 @@ export default {
         sourcemap: true,
         rollupOptions: {
             input: {
-                index: './act12.html',
+                index: './src/act12.html',
                 page1: './src/act11.html',
                 page2: './src/act10.html',
                 page3: './src/act9.html',
