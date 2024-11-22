@@ -2,14 +2,14 @@ import * as three from 'three'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-const canvas = document.querySelector('canvas.webber');
+const canvas = document.querySelector('canvas.webgl');
 
 const scene = new three.Scene();
 
 const sizes =
 {
-  width: 700,
-  height: 700
+  width: window.innerWidth,
+  height: window.innerHeight
 };
 
 const obj = new three.BoxGeometry(1,1,1);

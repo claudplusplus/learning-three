@@ -57,8 +57,8 @@ group.add(c3);
 // sizes
 const sizes =
 {
-  width: 700,
-  height: 700
+  width: window.innerWidth,
+  height: window.innerHeight
 };
 
 
