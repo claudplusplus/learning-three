@@ -23,8 +23,8 @@ export default {
                 page4: './src/act8.html',
                 page5: './src/act7.html',
                 page6: './src/act6.html',
-                page7: './src/act4-5.html',
-                page8: './src/act1-3.html',
+                page7: './src/act4to5.html',
+                page8: './src/act1to3.html',
                 page9: './src/act12.html'
             }
         }
