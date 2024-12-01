@@ -25,7 +25,8 @@ export default {
                 page6: './src/act6.html',
                 page7: './src/act4to5.html',
                 page8: './src/act1to3.html',
-                page9: './src/act12.html'
+                page9: './src/act12.html',
+                page10: './src/act2-1.html'
             }
         }
     }
