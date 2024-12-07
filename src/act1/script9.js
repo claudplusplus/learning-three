@@ -1,5 +1,5 @@
-import jjkprison from '../jjk/prisom.jpg'
-import cobble from '../jjk/cobble.png'
+import jjkprison from '/textures/jjk/prisom.jpg'
+import cobble from '/textures/jjk/cobble.png'
 import * as three from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 

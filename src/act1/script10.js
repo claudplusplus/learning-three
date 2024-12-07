@@ -9,12 +9,12 @@ const scene = new three.Scene();
 const cubeTextureLoader = new three.CubeTextureLoader();
 const envMapTexture = cubeTextureLoader.load
 ([
-  'jjk/px.png',
-  'jjk/nx.png',
-  'jjk/py.png',
-  'jjk/ny.png',
-  'jjk/pz.png',
-  'jjk/nz.png'
+  'textures/jjk/px.png',
+  'textures/jjk/nx.png',
+  'textures/jjk/py.png',
+  'textures/jjk/ny.png',
+  'textures/jjk/pz.png',
+  'textures/jjk/nz.png'
 ])
 
 const mat = new three.MeshStandardMaterial
