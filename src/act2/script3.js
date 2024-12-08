@@ -14,13 +14,13 @@ const sizes =
 
 
 const param = {}
-param.count = 1000
+param.count = 4500
 param.size = 0.02
-param.radius = 5
+param.radius = 3.8
 param.branches = 3
 param.spin = 1
-param.randomness = 0.02
-param.randomnessPow = 3
+param.randomness = 0.25
+param.randomnessPow = 1
 param.insideColor = '#c91870'
 param.outsideColor = '#1b3984'
 
@@ -121,7 +121,8 @@ gui.addColor(param, 'insideColor').onFinishChange(genGalaxy)
 gui.addColor(param, 'outsideColor').onFinishChange(genGalaxy)
 
 const cam = new three.PerspectiveCamera(75, sizes.width / sizes.height);
-cam.position.z = 5;
+cam.position.y = 3.5
+cam.position.z = 4
 scene.add(cam);
 const control = new OrbitControls(cam, canvas);
 control.enableDamping = true;
