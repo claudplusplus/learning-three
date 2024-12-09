@@ -1,8 +1,8 @@
 import * as three from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as lilGUI from 'lil-gui'
-import galaxyVertexShader from '../shaders/galaxy/vertex.glsl'
-import galaxyFragmentShader from '../shaders/galaxy/fragment.glsl'
+import galaxyVertexShader from '/shaders/galaxy/vertex.glsl'
+import galaxyFragmentShader from '/shaders/galaxy/fragment.glsl'
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new three.Scene();
