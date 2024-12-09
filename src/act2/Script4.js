@@ -1,6 +1,8 @@
 import * as three from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as lilGUI from 'lil-gui'
+import galaxyVertexShader from '../shaders/galaxy/vertex.glsl'
+import galaxyFragmentShader from '../shaders/galaxy/fragment.glsl'
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new three.Scene();
@@ -18,7 +20,7 @@ param.count = 4500
 param.size = 0.02
 param.radius = 3.8
 param.branches = 3
-param.spin = 1
+// param.spin = 1
 param.randomness = 0.25
 param.randomnessPow = 1
 param.insideColor = '#c91870'
@@ -34,13 +36,25 @@ let pointLight = null
 
 const geometry = new three.BufferGeometry()
 const colors = new Float32Array(param.count * 3)
+const scales = new Float32Array(param.count * 1)
 
-const mats = new three.PointsMaterial({
-  size: param.size,
-  sizeAttenuation: true,
+
+const renderer = new three.WebGLRenderer
+({
+  canvas: canvas
+});
+
+const mats = new three.ShaderMaterial({
   depthWrite: false,
   blending: three.AdditiveBlending,
-  vertexColors: true
+  vertexColors: true,
+  vertexShader: galaxyVertexShader,
+  fragmentShader: galaxyFragmentShader,
+  uniforms:
+  {
+    uSize: { value:30 * renderer.getPixelRatio() },
+    uTime: { value: 0 }
+  },
 })
 const points = new three.Points(geometry, mats)
 
@@ -65,26 +79,28 @@ const genGalaxy = () =>
   
   geometry.setAttribute('position', new three.BufferAttribute(pos, 3))
   geometry.setAttribute('color', new three.BufferAttribute(colors, 3))
+  geometry.setAttribute('aScale', new three.BufferAttribute(scales, 1))
 
   for(let i = 0; i < param.count; i++)
   {
     const i3 = i * 3
     const radius = Math.random() * param.radius
     const branchAngle = (i % param.branches) / param.branches * Math.PI * 2
-    const spinAngle = radius * param.spin
+    // const spinAngle = radius * param.spin
     const randomX = Math.pow(Math.random(), param.randomnessPow) * (Math.random() < 0.5 ? 1 : - 1) * param.randomness * radius
     const randomY = Math.pow(Math.random(), param.randomnessPow) * (Math.random() < 0.5 ? 1 : - 1) * param.randomness * radius
     const randomZ = Math.pow(Math.random(), param.randomnessPow) * (Math.random() < 0.5 ? 1 : - 1) * param.randomness * radius
 
-    pos[i3 ] = Math.cos(branchAngle + spinAngle) * radius + randomX // for x
+    pos[i3 ] = Math.cos(branchAngle) * radius + randomX // for x
     pos[i3 + 1] = randomY // for y
-    pos[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ // for z
+    pos[i3 + 2] = Math.sin(branchAngle) * radius + randomZ // for z
 
     const mixedColor = colorInside.clone()
     mixedColor.lerp(colorOutside, radius / param.radius)
     colors[i3 ] = mixedColor.r
     colors[i3 + 1] = mixedColor.g
     colors[i3 + 2] = mixedColor.b
+    scales[i] = Math.random()
   }
   scene.add(points)
 
@@ -114,7 +130,7 @@ gui.add(param, 'count').min(100).max(1000000).step(100).onFinishChange(genGalaxy
 gui.add(param, 'size').min(0.001).max(0.1).step(0.001).onFinishChange(genGalaxy)
 gui.add(param, 'radius').min(0.01).max(20).step(0.01).onFinishChange(genGalaxy)
 gui.add(param,'branches').min(2).max(20).step(1).onFinishChange(genGalaxy)
-gui.add(param, 'spin').min(-5).max(5).step(0.001).onFinishChange(genGalaxy)
+// gui.add(param, 'spin').min(-5).max(5).step(0.001).onFinishChange(genGalaxy)
 gui.add(param,  'randomness').min(0).max(2).step(0.001).onFinishChange(genGalaxy)
 gui.add(param, 'randomnessPow').min(1).max(10).step(0.001).onFinishChange(genGalaxy)
 gui.addColor(param, 'insideColor').onFinishChange(genGalaxy)
@@ -166,16 +182,16 @@ window.addEventListener('dblclick', () =>
 })
 
 
-const renderer = new three.WebGLRenderer
-({
-  canvas: canvas
-});
+
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.render(scene,cam);
 
 const clock = new three.Clock();
 const tick = () =>
 {
+  const elapsedTime = clock.getElapsedTime()
+  mats.uniforms.uTime.value = elapsedTime
   control.update();
   renderer.render(scene, cam);
   window.requestAnimationFrame(tick);
