@@ -14,7 +14,6 @@ const sizes =
   height: window.innerHeight
 }
 
-
 const param = {}
 param.count = 4500
 param.size = 0.02
