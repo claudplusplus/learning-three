@@ -31,7 +31,8 @@ export default {
                 page10: './src/act2-1.html',
                 page11: './src/act3.html',
                 page12: './src/act4.html',
-            }
+            },
+            external: ['act2/script4.js']
         }
     }
 }
